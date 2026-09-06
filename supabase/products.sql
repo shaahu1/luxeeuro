@@ -14,6 +14,7 @@ create table if not exists public.products (
   is_new boolean not null default false,
   featured boolean not null default false,
   origin text not null default 'Italy',
+  quantity integer not null default 0 check (quantity >= 0),
   created_at timestamptz not null default now()
 );
 

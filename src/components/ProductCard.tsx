@@ -16,6 +16,7 @@ type Props = {
 
 export function ProductCard({ product, priority }: Props) {
   const off = discountPercent(product);
+  const outOfStock = (product.quantity ?? 0) <= 0;
 
   return (
     <article className="group flex flex-col">
@@ -28,19 +29,28 @@ export function ProductCard({ product, priority }: Props) {
           alt={product.name}
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 20vw"
-          className="object-cover transition duration-500 group-hover:scale-[1.04]"
+          className={`object-cover transition duration-500 group-hover:scale-[1.04] ${outOfStock ? "opacity-70" : ""}`}
           priority={priority}
           unoptimized={!product.image.includes("images.unsplash.com")}
         />
+        <div className="absolute inset-x-0 top-0 flex items-start justify-between p-2">
+          {outOfStock ? (
+            <span className="bg-red-600 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-white">
+              Out of Stock
+            </span>
+          ) : (
+            <span />
+          )}
+          {product.isNew && !outOfStock && (
+            <span className="ml-auto bg-teal px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-white">
+              New
+            </span>
+          )}
+        </div>
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-2">
           <span className="bg-ink/85 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-white backdrop-blur-sm">
             −{off}%
           </span>
-          {product.isNew && (
-            <span className="bg-teal px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-white">
-              New
-            </span>
-          )}
         </div>
       </Link>
 
@@ -65,6 +75,7 @@ export function ProductCard({ product, priority }: Props) {
           </div>
           <AddToCartButton
             slug={product.slug}
+            maxQuantity={product.quantity ?? 0}
             label="Add"
             className="shrink-0 cursor-pointer rounded-md bg-teal px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-teal-deep"
           />

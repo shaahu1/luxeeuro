@@ -28,10 +28,11 @@ type CartContextValue = {
   count: number;
   subtotal: number;
   ready: boolean;
-  addItem: (slug: string, quantity?: number) => void;
+  addItem: (slug: string, quantity?: number) => boolean;
   removeItem: (slug: string) => void;
   setQuantity: (slug: string, quantity: number) => void;
   clearCart: () => void;
+  availableQuantity: (slug: string) => number;
 };
 
 const LEGACY_KEY = "luxeeuro-cart";
@@ -146,20 +147,54 @@ export function CartProvider({ children }: { children: ReactNode }) {
     writeStorage(owner, lines);
   }, [lines, ready, owner]);
 
+  // Keep cart lines within current stock levels
+  useEffect(() => {
+    if (!catalogReady || !products.length) return;
+    setLines((prev) => {
+      let changed = false;
+      const next: CartLine[] = [];
+      for (const line of prev) {
+        const product = getProductBySlug(line.slug, products);
+        if (!product || product.quantity <= 0) {
+          changed = true;
+          continue;
+        }
+        const quantity = Math.min(line.quantity, product.quantity);
+        if (quantity !== line.quantity) changed = true;
+        next.push({ slug: line.slug, quantity });
+      }
+      return changed ? next : prev;
+    });
+  }, [catalogReady, products]);
+
+  const availableQuantity = useCallback(
+    (slug: string) => {
+      const product = getProductBySlug(slug, products);
+      return Math.max(0, product?.quantity ?? 0);
+    },
+    [products],
+  );
+
   const addItem = useCallback(
     (slug: string, quantity = 1) => {
-      if (!getProductBySlug(slug, products)) return;
+      const product = getProductBySlug(slug, products);
+      if (!product || product.quantity <= 0 || quantity <= 0) return false;
+
+      let added = false;
       setLines((prev) => {
         const existing = prev.find((l) => l.slug === slug);
+        const currentQty = existing?.quantity ?? 0;
+        const nextQty = Math.min(product.quantity, currentQty + quantity);
+        if (nextQty <= currentQty) return prev;
+        added = true;
         if (existing) {
           return prev.map((l) =>
-            l.slug === slug
-              ? { ...l, quantity: l.quantity + quantity }
-              : l,
+            l.slug === slug ? { ...l, quantity: nextQty } : l,
           );
         }
-        return [...prev, { slug, quantity }];
+        return [...prev, { slug, quantity: nextQty }];
       });
+      return added;
     },
     [products],
   );
@@ -168,15 +203,27 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setLines((prev) => prev.filter((l) => l.slug !== slug));
   }, []);
 
-  const setQuantity = useCallback((slug: string, quantity: number) => {
-    if (quantity <= 0) {
-      setLines((prev) => prev.filter((l) => l.slug !== slug));
-      return;
-    }
-    setLines((prev) =>
-      prev.map((l) => (l.slug === slug ? { ...l, quantity } : l)),
-    );
-  }, []);
+  const setQuantity = useCallback(
+    (slug: string, quantity: number) => {
+      const product = getProductBySlug(slug, products);
+      const max = Math.max(0, product?.quantity ?? 0);
+
+      if (quantity <= 0 || max <= 0) {
+        setLines((prev) => prev.filter((l) => l.slug !== slug));
+        return;
+      }
+
+      const capped = Math.min(quantity, max);
+      setLines((prev) => {
+        const exists = prev.some((l) => l.slug === slug);
+        if (!exists) return [...prev, { slug, quantity: capped }];
+        return prev.map((l) =>
+          l.slug === slug ? { ...l, quantity: capped } : l,
+        );
+      });
+    },
+    [products],
+  );
 
   const clearCart = useCallback(() => setLines([]), []);
 
@@ -214,8 +261,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
       removeItem,
       setQuantity,
       clearCart,
+      availableQuantity,
     }),
-    [items, count, subtotal, ready, addItem, removeItem, setQuantity, clearCart],
+    [
+      items,
+      count,
+      subtotal,
+      ready,
+      addItem,
+      removeItem,
+      setQuantity,
+      clearCart,
+      availableQuantity,
+    ],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

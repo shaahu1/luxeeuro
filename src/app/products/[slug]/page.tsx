@@ -84,6 +84,11 @@ export default function ProductDetailPage() {
             <span className="rounded-md bg-teal-soft px-2.5 py-1 text-xs font-semibold text-teal-deep">
               Save {off}%
             </span>
+            {(product.quantity ?? 0) <= 0 && (
+              <span className="rounded-md bg-red-50 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-red-700">
+                Out of Stock
+              </span>
+            )}
           </div>
 
           <dl className="mt-8 grid grid-cols-2 gap-4 border-y border-line py-6 text-sm">

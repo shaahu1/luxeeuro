@@ -1,28 +1,30 @@
 import type { Metadata } from "next";
 import { AdminGate, AdminNav } from "@/components/AdminGate";
-import { AdminPanel } from "@/components/AdminPanel";
+import { AdminOrderDetail } from "@/components/AdminOrderDetail";
 
-export const metadata: Metadata = {
-  title: "Admin",
-  description: "Manage LuXe Euro products.",
+type Props = {
+  params: Promise<{ id: string }>;
 };
 
-export default function AdminPage() {
+export const metadata: Metadata = {
+  title: "Order details",
+  description: "View a LuXe Euro order.",
+};
+
+export default async function AdminOrderDetailPage({ params }: Props) {
+  const { id } = await params;
+
   return (
     <div className="mx-auto w-full px-5 pb-20 pt-28 sm:px-8 lg:px-[200px]">
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal">
         Admin
       </p>
       <h1 className="mt-2 font-display text-4xl font-bold tracking-tight text-ink">
-        Products
+        Order details
       </h1>
-      <p className="mt-3 text-ink-muted">
-        Sign in with your admin Google account to add and manage catalogue
-        items.
-      </p>
       <AdminGate>
         <AdminNav />
-        <AdminPanel />
+        <AdminOrderDetail orderId={id} />
       </AdminGate>
     </div>
   );

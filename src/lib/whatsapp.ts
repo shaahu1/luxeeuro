@@ -50,7 +50,11 @@ export function orderProductUrl(product: Product, origin: string) {
   return whatsappUrl(orderProductMessage(product, origin));
 }
 
-export function orderCartMessage(items: OrderLine[], origin: string) {
+export function orderCartMessage(
+  items: OrderLine[],
+  origin: string,
+  orderNumber?: string,
+) {
   const base = getSiteOrigin(origin);
   const lines = items.map((item, index) => {
     const link = productPageUrl(item.product, base);
@@ -66,9 +70,11 @@ ${link}`;
     0,
   );
 
+  const orderLine = orderNumber ? `Order #: ${orderNumber}\n\n` : "";
+
   return `Hi LuXe Euro — I'd like to place this order from my cart:
 
-${lines.join("\n\n")}
+${orderLine}${lines.join("\n\n")}
 
 ————————
 Total: LKR ${formatPrice(total)}
@@ -79,8 +85,12 @@ ${base}/cart
 Please confirm availability and shipping to Sri Lanka.`;
 }
 
-export function orderCartUrl(items: OrderLine[], origin: string) {
-  return whatsappUrl(orderCartMessage(items, origin));
+export function orderCartUrl(
+  items: OrderLine[],
+  origin: string,
+  orderNumber?: string,
+) {
+  return whatsappUrl(orderCartMessage(items, origin, orderNumber));
 }
 
 export function generalOrderUrl() {

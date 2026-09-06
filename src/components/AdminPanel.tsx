@@ -28,6 +28,7 @@ const emptyForm = {
   category: "fashion" as Category,
   priceLkr: "",
   marketPriceLkr: "",
+  quantity: "0",
   image: "",
   origin: "Italy",
   isNew: true,
@@ -73,6 +74,7 @@ export function AdminPanel() {
       category: product.category,
       priceLkr: String(product.priceLkr),
       marketPriceLkr: String(product.marketPriceLkr),
+      quantity: String(product.quantity ?? 0),
       image: product.image,
       origin: product.origin,
       isNew: Boolean(product.isNew),
@@ -160,6 +162,7 @@ export function AdminPanel() {
 
     const priceLkr = Number(form.priceLkr);
     const marketPriceLkr = Number(form.marketPriceLkr);
+    const quantity = Number(form.quantity);
     if (!form.name.trim() || !form.brand.trim() || !form.image.trim()) {
       setFormError("Name, brand, and image URL are required.");
       return;
@@ -170,6 +173,10 @@ export function AdminPanel() {
     }
     if (!Number.isFinite(marketPriceLkr) || marketPriceLkr < 0) {
       setFormError("Enter a valid market price.");
+      return;
+    }
+    if (!Number.isFinite(quantity) || quantity < 0 || !Number.isInteger(quantity)) {
+      setFormError("Enter a valid stock quantity (0 or more).");
       return;
     }
 
@@ -189,6 +196,7 @@ export function AdminPanel() {
       category: form.category,
       priceLkr,
       marketPriceLkr,
+      quantity,
       image: form.image.trim(),
       origin: form.origin.trim() || "Italy",
       isNew: form.isNew,
@@ -244,6 +252,7 @@ export function AdminPanel() {
         category: p.category,
         priceLkr: p.priceLkr,
         marketPriceLkr: p.marketPriceLkr,
+        quantity: p.quantity ?? 10,
         image: p.image,
         origin: p.origin,
         isNew: p.isNew,
@@ -294,6 +303,12 @@ export function AdminPanel() {
           >
             {showAddForm ? "Close form" : "Add product"}
           </button>
+          <Link
+            href="/admin/orders"
+            className="cursor-pointer rounded-md border border-line px-3 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:border-teal hover:text-teal"
+          >
+            Orders
+          </Link>
           <Link
             href="/products"
             className="cursor-pointer rounded-md border border-line px-3 py-2 text-xs font-semibold uppercase tracking-wide text-ink hover:border-teal hover:text-teal"
@@ -445,6 +460,22 @@ export function AdminPanel() {
                 value={form.marketPriceLkr}
                 onChange={(e) =>
                   setForm((f) => ({ ...f, marketPriceLkr: e.target.value }))
+                }
+                className={inputClass}
+              />
+            </label>
+            <label className="block text-sm">
+              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-ink-muted">
+                Quantity (stock)
+              </span>
+              <input
+                required
+                type="number"
+                min={0}
+                step={1}
+                value={form.quantity}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, quantity: e.target.value }))
                 }
                 className={inputClass}
               />
@@ -646,6 +677,7 @@ export function AdminPanel() {
                 <th className="px-4 py-3 font-semibold">Category</th>
                 <th className="px-4 py-3 font-semibold">Origin</th>
                 <th className="px-4 py-3 font-semibold">Price</th>
+                <th className="px-4 py-3 font-semibold">Qty</th>
                 <th className="px-4 py-3 font-semibold">Market</th>
                 <th className="px-4 py-3 font-semibold">Flags</th>
                 <th className="px-4 py-3 font-semibold">Actions</th>
@@ -669,6 +701,9 @@ export function AdminPanel() {
                   <td className="px-4 py-3 text-ink-muted">{product.origin}</td>
                   <td className="px-4 py-3 whitespace-nowrap font-semibold text-ink">
                     {formatLkr(product.priceLkr)}
+                  </td>
+                  <td className="px-4 py-3 whitespace-nowrap text-ink-muted">
+                    {product.quantity ?? 0}
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap text-ink-muted">
                     {formatLkr(product.marketPriceLkr)}
@@ -712,7 +747,7 @@ export function AdminPanel() {
               {catalogReady && filteredProducts.length === 0 && (
                 <tr>
                   <td
-                    colSpan={8}
+                    colSpan={9}
                     className="px-4 py-10 text-center text-ink-muted"
                   >
                     No products match these filters.

@@ -20,6 +20,7 @@ export type Product = {
   isNew?: boolean;
   featured?: boolean;
   origin: string;
+  quantity: number;
 };
 
 export const categories: { id: Category | "all"; label: string }[] = [
@@ -49,6 +50,7 @@ export const seedProducts: Product[] = [
     isNew: true,
     featured: true,
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "2",
@@ -65,6 +67,7 @@ export const seedProducts: Product[] = [
     isNew: true,
     featured: true,
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "3",
@@ -79,6 +82,7 @@ export const seedProducts: Product[] = [
     image:
       "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=800&q=80",
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "4",
@@ -94,6 +98,7 @@ export const seedProducts: Product[] = [
       "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80",
     featured: true,
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "5",
@@ -108,6 +113,7 @@ export const seedProducts: Product[] = [
     image:
       "https://images.unsplash.com/photo-1590874103328-eac38a67478a?auto=format&fit=crop&w=800&q=80",
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "6",
@@ -124,6 +130,7 @@ export const seedProducts: Product[] = [
     isNew: true,
     featured: true,
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "7",
@@ -139,6 +146,7 @@ export const seedProducts: Product[] = [
       "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=800&q=80",
     featured: true,
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "8",
@@ -153,6 +161,7 @@ export const seedProducts: Product[] = [
     image:
       "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "9",
@@ -168,6 +177,7 @@ export const seedProducts: Product[] = [
       "https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?auto=format&fit=crop&w=800&q=80",
     isNew: true,
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "10",
@@ -183,6 +193,7 @@ export const seedProducts: Product[] = [
       "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
     featured: true,
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "11",
@@ -197,6 +208,7 @@ export const seedProducts: Product[] = [
     image:
       "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=80",
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "12",
@@ -211,6 +223,7 @@ export const seedProducts: Product[] = [
     image:
       "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "13",
@@ -227,6 +240,7 @@ export const seedProducts: Product[] = [
     isNew: true,
     featured: true,
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "14",
@@ -241,6 +255,7 @@ export const seedProducts: Product[] = [
     image:
       "https://images.unsplash.com/photo-1624222247344-550fb60583fd?auto=format&fit=crop&w=800&q=80",
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "15",
@@ -255,6 +270,7 @@ export const seedProducts: Product[] = [
     image:
       "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=800&q=80",
     origin: "Italy",
+    quantity: 10,
   },
   {
     id: "16",
@@ -270,6 +286,7 @@ export const seedProducts: Product[] = [
       "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=800&q=80",
     featured: true,
     origin: "Europe",
+    quantity: 10,
   },
   {
     id: "17",
@@ -285,6 +302,7 @@ export const seedProducts: Product[] = [
       "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&fit=crop&w=800&q=80",
     isNew: true,
     origin: "Europe",
+    quantity: 10,
   },
 ];
 

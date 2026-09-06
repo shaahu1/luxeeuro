@@ -104,6 +104,23 @@ export function Header() {
                   Hi, {getUserDisplayName(user)}
                 </span>
               )}
+              <Link
+                href="/orders"
+                className="cursor-pointer rounded-md border border-line bg-white/80 px-3 py-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-ink transition hover:border-teal hover:text-teal"
+              >
+                Orders
+              </Link>
+          <Link
+            href="/cart"
+            className="relative inline-flex cursor-pointer items-center rounded-md border border-line bg-white/80 px-3 py-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-ink transition hover:border-teal hover:text-teal"
+          >
+            Cart
+            {showCartCount && (
+              <span className="ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-md bg-teal px-1 text-[10px] font-bold text-white">
+                {count}
+              </span>
+            )}
+          </Link>
               <button
                 type="button"
                 onClick={() => signOut()}
@@ -121,17 +138,6 @@ export function Header() {
             </Link>
           )}
 
-          <Link
-            href="/cart"
-            className="relative inline-flex cursor-pointer items-center rounded-md border border-line bg-white/80 px-3 py-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-ink transition hover:border-teal hover:text-teal"
-          >
-            Cart
-            {showCartCount && (
-              <span className="ml-2 inline-flex h-5 min-w-5 items-center justify-center rounded-md bg-teal px-1 text-[10px] font-bold text-white">
-                {count}
-              </span>
-            )}
-          </Link>
           <button
             type="button"
             aria-label="Open menu"
@@ -186,6 +192,12 @@ export function Header() {
                     Hi, {getUserDisplayName(user)}
                   </p>
                 )}
+                <Link
+                  href="/orders"
+                  className="font-display text-lg font-semibold text-teal"
+                >
+                  Orders
+                </Link>
                 <button
                   type="button"
                   onClick={() => signOut()}
