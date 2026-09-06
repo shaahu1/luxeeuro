@@ -44,6 +44,19 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_ANON_KEY
 
 Pages: `/login`, `/signup` — enter email (optional) → **Continue with Google**.
 
+## Orders
+
+1. Run `supabase/orders.sql` in Supabase → SQL Editor
+2. (Optional email) Add Resend keys to `.env.local`:
+
+```env
+RESEND_API_KEY=re_...
+ORDER_EMAIL_FROM=LuXe Euro <onboarding@resend.dev>
+```
+
+3. Clicking **Place Order** saves the order, emails a confirmation to the
+   customer, then opens WhatsApp with `Order #LX-...`
+
 ## Admin products
 
 1. Run `supabase/products.sql` in Supabase → SQL Editor

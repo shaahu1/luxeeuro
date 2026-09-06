@@ -18,6 +18,7 @@ export type ProductRow = {
   is_new: boolean;
   featured: boolean;
   origin: string;
+  quantity?: number | null;
 };
 
 const validCategories = new Set<Category>([
@@ -48,6 +49,7 @@ export function mapProductRow(row: ProductRow): Product {
     isNew: row.is_new,
     featured: row.featured,
     origin: row.origin,
+    quantity: Math.max(0, Number(row.quantity ?? 0)),
   };
 }
 
@@ -64,6 +66,7 @@ export function toProductInsert(product: Omit<Product, "id">) {
     is_new: Boolean(product.isNew),
     featured: Boolean(product.featured),
     origin: product.origin,
+    quantity: Math.max(0, Math.floor(Number(product.quantity) || 0)),
   };
 }
 

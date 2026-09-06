@@ -3,8 +3,7 @@ import { CartView } from "./CartView";
 
 export const metadata: Metadata = {
   title: "Cart",
-  description:
-    "Review your LuXe Euro cart and place your order on WhatsApp.",
+  description: "Review your LuXe Euro cart and place your order.",
 };
 
 export default function CartPage() {
@@ -17,8 +16,8 @@ export default function CartPage() {
         Your cart
       </h1>
       <p className="mt-4 max-w-xl text-ink-muted">
-        Adjust quantities, then place your order on WhatsApp. Your message will
-        include product links and totals.
+        Adjust quantities, then place your order. We’ll email a confirmation and
+        open WhatsApp with your order details.
       </p>
       <CartView />
     </div>
