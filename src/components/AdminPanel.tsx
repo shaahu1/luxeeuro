@@ -7,6 +7,7 @@ import { useProducts } from "@/context/ProductsContext";
 import { isAdminEmail } from "@/lib/admin";
 import { createClient } from "@/lib/supabase/client";
 import { toProductInsert } from "@/lib/catalog";
+import { normalizeImageUrl } from "@/lib/image-url";
 import {
   categories,
   formatLkr,
@@ -197,7 +198,7 @@ export function AdminPanel() {
       priceLkr,
       marketPriceLkr,
       quantity,
-      image: form.image.trim(),
+      image: normalizeImageUrl(form.image.trim()),
       origin: form.origin.trim() || "Italy",
       isNew: form.isNew,
       featured: form.featured,
@@ -491,9 +492,13 @@ export function AdminPanel() {
                 onChange={(e) =>
                   setForm((f) => ({ ...f, image: e.target.value }))
                 }
-                placeholder="https://..."
+                placeholder="https://... or Google Drive share link"
                 className={inputClass}
               />
+              <p className="mt-1.5 text-xs text-ink-muted">
+                Google Drive: share the file as “Anyone with the link”, then paste
+                the share URL (we convert it automatically).
+              </p>
             </label>
             <p className="text-xs text-ink-muted sm:col-span-2">
               Slug:{" "}

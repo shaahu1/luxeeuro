@@ -3,6 +3,7 @@ import {
   type Product,
   seedProducts,
 } from "@/data/products";
+import { normalizeImageUrl } from "@/lib/image-url";
 import { isSupabaseConfigured, createClient } from "@/lib/supabase/client";
 
 export type ProductRow = {
@@ -45,7 +46,7 @@ export function mapProductRow(row: ProductRow): Product {
     category,
     priceLkr: row.price_lkr,
     marketPriceLkr: row.market_price_lkr,
-    image: row.image,
+    image: normalizeImageUrl(row.image),
     isNew: row.is_new,
     featured: row.featured,
     origin: row.origin,
@@ -62,7 +63,7 @@ export function toProductInsert(product: Omit<Product, "id">) {
     category: product.category,
     price_lkr: product.priceLkr,
     market_price_lkr: product.marketPriceLkr,
-    image: product.image,
+    image: normalizeImageUrl(product.image),
     is_new: Boolean(product.isNew),
     featured: Boolean(product.featured),
     origin: product.origin,

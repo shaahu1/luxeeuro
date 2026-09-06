@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ProductBuyActions } from "@/components/ProductBuyActions";
+import { ProductImage } from "@/components/ProductImage";
 import { useProducts } from "@/context/ProductsContext";
 import { discountPercent, formatLkr } from "@/data/products";
 
@@ -50,14 +50,13 @@ export default function ProductDetailPage() {
 
       <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-14">
         <div className="relative aspect-[4/5] overflow-hidden bg-mist">
-          <Image
+          <ProductImage
             src={product.image}
             alt={product.name}
             fill
             priority
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, 50vw"
-            unoptimized={!product.image.includes("images.unsplash.com")}
           />
         </div>
 

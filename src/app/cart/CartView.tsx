@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
@@ -9,6 +8,7 @@ import { formatLkr } from "@/data/products";
 import { getUserDisplayName } from "@/lib/user";
 import { createOrderFromCart } from "@/lib/orders";
 import { orderCartUrl } from "@/lib/whatsapp";
+import { ProductImage } from "@/components/ProductImage";
 
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -165,7 +165,7 @@ export function CartView() {
               href={`/products/${item.slug}`}
               className="relative h-28 w-24 shrink-0 overflow-hidden bg-mist sm:h-32 sm:w-28"
             >
-              <Image
+              <ProductImage
                 src={item.product.image}
                 alt={item.product.name}
                 fill

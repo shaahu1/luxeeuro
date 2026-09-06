@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import {
   type Product,
@@ -8,6 +7,7 @@ import {
   formatLkr,
 } from "@/data/products";
 import { AddToCartButton } from "@/components/AddToCartButton";
+import { ProductImage } from "@/components/ProductImage";
 
 type Props = {
   product: Product;
@@ -24,14 +24,13 @@ export function ProductCard({ product, priority }: Props) {
         href={`/products/${product.slug}`}
         className="relative block aspect-[3/4] overflow-hidden bg-mist"
       >
-        <Image
+        <ProductImage
           src={product.image}
           alt={product.name}
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 20vw"
           className={`object-cover transition duration-500 group-hover:scale-[1.04] ${outOfStock ? "opacity-70" : ""}`}
           priority={priority}
-          unoptimized={!product.image.includes("images.unsplash.com")}
         />
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-2">
           {outOfStock ? (
